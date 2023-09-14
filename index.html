@@ -6,31 +6,85 @@
 </head>
 <body>
   <script>
-    let computerNumber = Math.floor((Math.random()*3)+1);
-    let playerChoice = "Rock";
-  
-
+    
     function getComputerChoice() { 
+      let computerNumber = Math.floor((Math.random()*3)+1);
         if (computerNumber === 1) {
-          computerChoice = "Rock";
+          return "Rock";
     }   else if (computerNumber === 2) {
-          computerChoice = "Paper";
-    }   else (computerChoice = "Scissors");
+          return "Paper";
+    }   else {
+          return "Scissors";
+        }
+    }
+    
+    function getPlayerChoice() {
+    let check = false;
+    while(check == false){
+        const choice = prompt("Paper, Scissors or Rock?");
+        if (choice == null){
+            continue;
+        }
+        const playerChoice = choice;
+            return playerChoice;
+        }
     }
 
-    function playRound() {
-      if (computerChoice === "Rock" && playerChoice == "Rock") {
-        alert("Draw! Both Players picked Rock")
-      } else if (computerChoice === "Paper" && playerChoice == "Rock") {
-        alert("You lose! Paper beats Rock")
-      } else if (computerChoice === "Scissors" && playerChoice == "Rock") {
-        alert("Congratulations! Rock smashes Scissors")
+    function playRound(playerSelection, computerSelection) {
+      if (computerSelection === playerSelection) {
+        return "Draw"
+      }
+      else if ((computerSelection === "Paper" && playerSelection == "Rock") ||
+         (computerSelection === "Scissors" && playerSelection == "Paper") ||
+         (computerSelection === "Rock" && playerSelection == "Scissors")) {
+        return "Computer"
+      } 
+      else if ((computerSelection === "Paper" && playerSelection == "Scissors") ||
+         (computerSelection === "Scissors" && playerSelection == "Rock") ||
+         (computerSelection === "Rock" && playerSelection == "Paper")) {
+          return "Player"
       }
     }
-    const playerSelection = "ROCK";
-    let computerSelection = getComputerChoice();
     
-    console.log(playRound(playerSelection, computerSelection));
+    function winLose(playerSelection, computerSelection) {
+    const result = playRound(playerSelection, computerSelection);
+    if (result == "Draw") {
+        return "It's a draw!"
+    }
+    else if(result == "Player") {
+        return `You win! ${playerSelection} beats ${computerSelection}`
+    }
+    else {
+        return `You lose! ${computerSelection} beats ${playerSelection}`
+    }
+}
+
+    function game() {
+      let playerScore = 0;
+      let computerScore = 0;
+      for (let i = 0; i < 5; i++){
+        const playerSelection = getPlayerChoice();
+        const computerSelection = getComputerChoice();
+        console.log(winLose(playerSelection, computerSelection));
+        if (playRound(playerSelection, computerSelection) == "Player") {
+            playerScore++;
+      }
+        else if (playRound(playerSelection, computerSelection) == "Computer") {
+            computerScore++;
+      }
+    }
+      console.log("Game Over")
+      if (playerScore > computerScore) {
+        console.log("User wins! " + playerScore + " - " + computerScore);
+      }
+      else if (playerScore < computerScore) {
+        console.log("Computer wins! " + computerScore + " - " + playerScore)
+      }
+      else {
+        console.log("The game is a draw!")
+      }
+  }
+  game();
 
   </script>
 </body>
