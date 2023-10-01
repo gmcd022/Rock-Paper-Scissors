@@ -5,7 +5,51 @@
   <title>RPS</title>
 </head>
 <body>
+
+  <div id="game">
+    <button onClick="getPlayerChoice('rock')">Rock</button>
+    <button onClick="getPlayerChoice('paper')">Paper</button>
+    <button onClick="getPlayerChoice('scissors')">Scissors</button>
+    <h2 id="result"></h2>
+    <div id ="roundInfo"></div>
+    <br>
+    <br>
+    <button onClick="reset()">RESET</button>
+</div>
+
+<h3>Player Score</h3>
+<div id="score1"></div>
+<h3>Computer Score</h3>
+<div id="score2"></div>
   <script>
+
+let playerScore = 0;
+let computerScore = 0;
+
+
+   
+function getPlayerChoice(choose){
+    playerSelection = choose;
+    game();
+    document.getElementById("score1").textContent = playerScore;
+    document.getElementById("score2").textContent = computerScore;
+    if (playerScore === 5) {
+        document.getElementById("result").textContent = ("User wins! " + playerScore + " - " + computerScore);
+      }
+    else if (computerScore === 5) {
+        document.getElementById("result").textContent = ("Computer wins! " + computerScore + " - " + playerScore)
+      }
+}
+
+function reset(click){
+    playerScore = 0;
+    computerScore = 0;
+    document.getElementById("score1").textContent = playerScore;
+    document.getElementById("score2").textContent = computerScore;
+    document.getElementById("result").textContent = "Game in Progress..";
+    document.getElementById("roundInfo").textContent = ""
+    }
+
     
     function getComputerChoice() { 
       let computerNumber = Math.floor((Math.random()*3)+1);
@@ -18,17 +62,6 @@
         }
     }
     
-    function getPlayerChoice() {
-    let check = false;
-    while(check == false){
-        const choice = prompt("Paper, Scissors or Rock?");
-        if (choice == null){
-            continue;
-        }
-        const playerChoice = choice.toLowerCase();
-            return playerChoice;
-        }
-    }
 
     function playRound(playerSelection, computerSelection) {
       if (computerSelection === playerSelection) {
@@ -45,47 +78,40 @@
           return "Player"
       }
     }
+
     
     function winLose(playerSelection, computerSelection) {
     const result = playRound(playerSelection, computerSelection);
     if (result == "Draw") {
-        return "It's a draw!"
+        document.getElementById("roundInfo").textContent = "It's a draw!"
     }
     else if(result == "Player") {
-        return `You win! ${playerSelection} beats ${computerSelection}`
+      document.getElementById("roundInfo").textContent = `You win! ${playerSelection} beats ${computerSelection}`
     }
     else {
-        return `You lose! ${computerSelection} beats ${playerSelection}`
+      document.getElementById("roundInfo").textContent = `You lose! ${computerSelection} beats ${playerSelection}`
     }
-}
+    }
 
+    
     function game() {
-      let playerScore = 0;
-      let computerScore = 0;
-      for (let i = 0; i < 5; i++){
-        const playerSelection = getPlayerChoice();
-        const computerSelection = getComputerChoice();
-        console.log(winLose(playerSelection, computerSelection));
-        if (playRound(playerSelection, computerSelection) == "Player") {
-            playerScore++;
+      const computerSelection = getComputerChoice();
+      console.log(winLose(playerSelection, computerSelection));
+      if (playRound(playerSelection, computerSelection) == "Player") {
+        return playerScore++;
       }
-        else if (playRound(playerSelection, computerSelection) == "Computer") {
-            computerScore++;
+      else if (playRound(playerSelection, computerSelection) == "Computer") {
+        return computerScore++;     
       }
-    }
-      console.log("Game Over")
-      if (playerScore > computerScore) {
-        console.log("User wins! " + playerScore + " - " + computerScore);
+ 
+      if (playerScore === 5) {
+        document.getElementById("result").textContent = ("User wins! " + playerScore + " - " + computerScore);
       }
-      else if (playerScore < computerScore) {
-        console.log("Computer wins! " + computerScore + " - " + playerScore)
+      else if (computerScore === 5) {
+        document.getElementById("result").textContent = ("Computer wins! " + computerScore + " - " + playerScore)
       }
-      else {
-        console.log("The game is a draw! " + computerScore + " - " + playerScore)
-      }
+      
   }
-  game();
-
-  </script>
+</script>
 </body>
 </html>
